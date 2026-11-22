@@ -1,0 +1,70 @@
+# ── Sırlar ve kişisel ayarlar (ASLA depoya girmemeli) ─────────────────────────
+# Şablonlar (.env.example, config.example.toml) depoda kalır.
+.env
+.env.*
+!.env.example
+config.toml
+*.key
+*.pem
+*.p12
+secrets.*
+credentials*
+
+# ── Geliştirme notları / araç dosyaları (depoya girmez) ───────────────────────
+CLAUDE.md
+.claude/
+
+# ── Çalışma ve ara dosyalar (transkript, çeviri, ses) ve loglar ───────────────
+work/
+work_*/
+logs/
+*.log
+claims/
+speakers.json
+translated.json
+segments.json
+
+# ── Medya ─────────────────────────────────────────────────────────────────────
+*.mp4
+*.mov
+*.mkv
+*.avi
+*.webm
+*.m4v
+*.wav
+*.mp3
+*.m4a
+*.aac
+*.flac
+*.aiff
+*.ogg
+
+# ── Modeller ve indirilen ağırlıklar ──────────────────────────────────────────
+models/
+*.onnx
+*.safetensors
+*.mlmodelc/
+*.pt
+*.pth
+*.ckpt
+
+# ── Python ortamı, önbellek, derleme çıktıları ────────────────────────────────
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ── Editör / işletim sistemi ──────────────────────────────────────────────────
+.DS_Store
+.metadata_never_index
+.idea/
+.vscode/
+*.swp

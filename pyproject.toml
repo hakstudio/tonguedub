@@ -1,0 +1,58 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "tonguedub"
+version = "0.1.0"
+description = "Local English-to-Turkish video dubbing with per-speaker voice cloning (Apple Silicon)."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "numpy",
+    "scipy",
+    "scikit-learn",
+    "soundfile",
+    "librosa",
+    "pyrubberband",
+    "requests",
+    "torch",
+    "torchaudio",
+    "demucs",
+    # Chatterbox TTS runtime dependencies. The `chatterbox-tts` package itself is
+    # installed with --no-deps by scripts/install.sh because its `pkuseg`
+    # dependency does not build; these are the remaining requirements.
+    "conformer",
+    "diffusers",
+    "omegaconf",
+    "pykakasi",
+    "pyloudnorm",
+    "resemble-perth",
+    "s3tokenizer",
+    "safetensors",
+    "transformers",
+    "spacy-pkuseg",
+    "setuptools<81",  # resemble-perth needs pkg_resources
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff"]
+
+[project.scripts]
+tonguedub = "tonguedub.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/tonguedub"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 140
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["F"]  # pyflakes: unused imports / undefined names

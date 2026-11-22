@@ -1,0 +1,52 @@
+# Tonguedub ayarları: bu dosyayı `config.toml` olarak kopyala ve düzenle.
+#   cp config.example.toml config.toml
+# config.toml gizli bilgi (API anahtarı, kişisel yollar) içerebildiği için .gitignore'dadır; bu örnek dosya depoya girer.
+#
+# Arama sırası: --config bayrağı > $TONGUEDUB_CONFIG > <proje kökü>/config.toml > ~/.config/tonguedub/config.toml
+# Burada olmayan her ayar için varsayılan kullanılır. Yazım hatası olan ayar adı hata verir.
+
+[paths]
+# Ara dosyalar (transkript, çeviri, ses). İşlem bitince ya da başarısız olunca otomatik silinir (--test ile saklanır).
+work_dir  = "~/.cache/tonguedub/work"
+# Özet loglar: süre ve sayaçlar içerir, transkript içermez.
+log_dir   = "~/.local/state/tonguedub/logs"
+# Kuyruk durumu (tonguedub add / status).
+queue_dir = "~/.local/state/tonguedub/queue"
+
+[transcribe]
+whisperkit_cli = "whisperkit-cli"
+# Hazır model klasörün varsa yolunu yaz. Boş bırakırsan `model` ilk çalıştırmada
+# `model_download_dir` içine indirilir.
+model_path         = ""
+model              = "large-v3-v20240930_turbo"
+model_download_dir = "~/.cache/tonguedub/models"
+language           = "en"
+
+[translate]
+# DeepSeek (OpenAI uyumlu API). API anahtarı BURAYA yazılmaz: .env dosyasındaki
+# DEEPSEEK_API_KEY değişkeninden okunur (şablon: .env.example).
+base_url       = "https://api.deepseek.com"
+model          = "deepseek-v4-pro"
+fallback_model = "deepseek-flash"      # ret/bozuk yanıt gelirse son denemelerde kullanılır
+temperature    = 0.3
+batch_size     = 12                    # tek istekte çevrilen satır sayısı
+max_threads    = 12                    # paralel istek sayısı
+timeout        = 300                   # sn
+
+[tts]
+device       = "auto"                  # auto | mps | cpu
+exaggeration = 0.5
+cfg_weight   = 0.5
+
+[pipeline]
+speakers   = 2        # yüksek perdeli konuşmacı sayısı (alçak perdeliler otomatik ayrılır)
+workers    = "auto"   # paralel TTS süreci: sayı ya da "auto" (<16 GB: 1, 16-23 GB: 2, >=24 GB: 3)
+merge      = 0.0      # kısa satırları bu süreye (sn) kadar birleştirip tek seferde üret (0 = kapalı)
+min_dur    = 1.0      # bundan kısa (sn) satırlar dublajlanmaz, orijinal ses kalır
+expressive = 0.5      # 0 = düz perde, 1 = orijinal satırın perdesini tam takip et
+bleed      = 0.12     # dublaj sırasında orijinal vokalden kalan oran (0-1)
+duck       = 3.0      # dublaj sırasında arka planın kısılacağı miktar (dB)
+fit        = true     # üst üste binmeyi önleyen sığdırma
+polish     = true     # perde/seviye cilası
+reroll     = true     # perdesi sapan klipleri yeniden üret
+keep       = false    # true: ara dosyaları sakla (test modu)
